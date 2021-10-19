@@ -1,9 +1,8 @@
 import * as uuid from 'uuid'
-import AWS from 'aws-sdk'
+import handler from './util/handler'
+import dynamoDb from './util/dynamoDb'
 
-const dynamoDb = new AWS.DynamoDB.DocumentClient()
-
-export async function main (event) {
+export const main = handler(async (event) => {
   const data = JSON.parse(event.body)
 
   const params = {
@@ -17,17 +16,7 @@ export async function main (event) {
     }
   }
 
-  try {
-    await dynamoDb.put(params).promise()
+  await dynamoDb.put(params)
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(params.Item)
-    }
-  } catch (e) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: e.message })
-    }
-  }
-}
+  return params.Item
+})
