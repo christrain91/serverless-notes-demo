@@ -73,7 +73,7 @@ export default function Signup () {
 
     try {
       await Auth.confirmSignUp(fields.email, fields.confirmationCode);
-      await Auth.signIn(fields.email, fields.confirmationCode)
+      await Auth.signIn(fields.email, fields.password)
 
       userHasAuthenticated(true)
       history.push('/')
