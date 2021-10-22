@@ -28,7 +28,7 @@ function App () {
   const onLoad = useCallback(async () => {
     try {
       await Auth.currentSession()
-      userHasAuthenticated(false)
+      userHasAuthenticated(true)
     } catch (e) {
       if (e !== 'No current user') {
         onError(e)
@@ -36,7 +36,7 @@ function App () {
     }
 
     setIsAuthenticating(false)
-  }, [userHasAuthenticated])
+  }, [])
 
   useEffect(() => {
     onLoad()
@@ -57,7 +57,12 @@ function App () {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Nav activeKey={window.location.pathname}>
-              {isAuthenticated ? (<Nav.Link onClick={handleLogout}>Logout</Nav.Link>) :
+              {isAuthenticated ? (<>
+                <LinkContainer to="/settings">
+                  <Nav.Link>Settings</Nav.Link>
+                </LinkContainer>
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+              </>) :
                 (<>
                   <LinkContainer to="/signup">
                     <Nav.Link>Signup</Nav.Link>

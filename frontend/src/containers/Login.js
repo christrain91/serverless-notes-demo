@@ -4,7 +4,6 @@ import LoaderButton from '../components/LoaderButton'
 import styled from 'styled-components'
 import { Auth } from 'aws-amplify'
 import { useAppContext } from '../lib/contextLib'
-import { useHistory } from 'react-router-dom'
 import { useFormFields } from '../lib/hooksLib'
 
 const LoginContainer = styled.div`
@@ -22,9 +21,9 @@ const LoginContainer = styled.div`
 export default function Login () {
   const [isLoading, setIsLoading] = useState(false)
   const { userHasAuthenticated } = useAppContext()
-  const history = useHistory()
+
   const [fields, handleFieldChange] = useFormFields({
-    emai: '',
+    email: '',
     password: ''
   })
 
@@ -41,7 +40,6 @@ export default function Login () {
       await Auth.signIn(fields.email, fields.password)
       alert('Logged in')
       userHasAuthenticated(true)
-      history.push('/')
     }
     catch (e) {
       alert(e.message)
@@ -59,7 +57,6 @@ export default function Login () {
           autoFocus
           type="email"
           value={fields.email}
-          id="email"
           onChange={handleFieldChange}
         />
       </Form.Group>
@@ -68,7 +65,6 @@ export default function Login () {
         <Form.Control
           type="password"
           value={fields.password}
-          id="password"
           onChange={handleFieldChange}
         />
       </Form.Group>
