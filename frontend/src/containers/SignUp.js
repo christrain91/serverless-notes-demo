@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import Form from 'react-bootstrap/Form'
-import { useHistory } from 'react-router-dom'
 import LoaderButton from '../components/LoaderButton'
 import { useAppContext } from '../lib/contextLib'
 import { useFormFields } from '../lib/hooksLib'
@@ -27,7 +26,6 @@ export default function Signup () {
     confirmationCode: ''
   })
 
-  const history = useHistory()
   const [newUser, setNewUser] = useState(null)
   const { userHasAuthenticated } = useAppContext()
   const [isLoading, setIsLoading] = useState(false)
@@ -76,7 +74,6 @@ export default function Signup () {
       await Auth.signIn(fields.email, fields.password)
 
       userHasAuthenticated(true)
-      history.push('/')
     } catch (e) {
       setIsLoading(false)
     }
